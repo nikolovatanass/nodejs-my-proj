@@ -15,7 +15,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('theseAreNotCredentials')
-        IMAGE_NAME = atnikolo/theapp
+        IMAGE_NAME = 'atnikolo/theapp'
     }
 
     stages {
