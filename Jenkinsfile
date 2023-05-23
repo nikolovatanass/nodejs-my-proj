@@ -48,7 +48,7 @@ pipeline {
         }
         stage('buildAndTag') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME} -f Dockerfile.' 
+                sh 'docker build -t ${IMAGE_NAME} -f Dockerfile .' 
                 sh 'docker tag ${IMAGE_NAME} ${IMAGE_NAME}:${BUILD_NUMBER}'
             }
         }
