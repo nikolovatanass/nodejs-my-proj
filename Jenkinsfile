@@ -43,7 +43,7 @@ pipeline {
         }
         stage('dockerLogin') {
             steps {
-                sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_USR'
+                sh 'docker login -u $DOCKERHUB_CREDENTIALS -p $DOCKERHUB_CREDENTIALS'
             }
         }
         stage('buildAndTag') {
