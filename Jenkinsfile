@@ -6,10 +6,16 @@ pipeline {
 
     tools {
         nodejs 'nodejs'
+        dockerTool 'docker'
     }
 
     triggers {
         githubPush()
+    }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('theseAreNotCredentials')
+        IMAGE_NAME = atnikolo/theapp
     }
 
     stages {
@@ -33,6 +39,22 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'npm test' //This is for testing the nodejs modules
+            }
+        }
+        stage('dockerLogin') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('buildAndTag') {
+            steps {
+                sh 'docker build -t ${IMAGE_NAME} -f Dockerfile.' 
+                sh 'docker tag ${IMAGE_NAME} ${IMAGE_NAME}:${BUILD_NUMBER}'
+            }
+        }
+        stage('dockerPush') {
+            steps {
+                sh 'docker push ${IMAGE_NAME}:${BUILD_NUMBER}'
             }
         }
         stage('Deploy') {
